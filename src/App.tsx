@@ -1,12 +1,16 @@
-import { useContext } from "react"
+import { useMemo } from "react";
 import BudgetForm from "./components/BudgetForm"
-import { BudgetContext } from "./context/BudgetContext"
+import { useBudget } from "./hooks/useBudget"
+import BudgetTraker from "./components/BudgetTraker";
 
 function App() {
+  const { state } = useBudget();
 
-  const context = useContext(BudgetContext);
-  console.log(context)
-
+  /*
+    boolean que me permite conocer el valor de budget
+  */
+  const isValidBudget = useMemo(()=> state.budget > 0, [state.budget]);
+  
   return (
     <>
       <header className="bg-blue-600 py-8 max-h-72">
@@ -14,7 +18,8 @@ function App() {
       </header>
 
       <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg mt-10 p-10">
-        <BudgetForm />
+        {isValidBudget ? <BudgetTraker /> : <BudgetForm />}
+        
       </div>
     </>
   )

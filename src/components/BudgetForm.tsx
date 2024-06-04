@@ -1,4 +1,5 @@
-import { useState, ChangeEvent, useMemo} from "react"
+import { useState, ChangeEvent, useMemo, FormEvent} from "react"
+import { useBudget } from "../hooks/useBudget";
 
 
 
@@ -7,6 +8,9 @@ function BudgetForm() {
 
     const [ budget, setBudget] = useState(0);
 
+    // consulta a custom hook que conecta al context
+    const { dispatch } = useBudget()
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         // AsNumber -> metodo para cambiar el value de un input a numero
         setBudget(e.target.valueAsNumber);
@@ -14,8 +18,20 @@ function BudgetForm() {
 
     const isValidBudget = useMemo(() => isNaN(budget) || budget <= 0, [budget]);
 
+    
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        dispatch({type: "add-budget", payload:{ budget } });
+        // setBudget(0);
+    }
+    
+
     return (
-        <form className="space-y-5">
+        <form 
+            className="space-y-5"
+            onSubmit={handleSubmit}
+        >
             <div className="flex flex-col space-y-5">
                 <label htmlFor="budget" className="text-4xl text-blue-600 font-bold text-center">
                     Definir Presupuesto
@@ -25,7 +41,7 @@ function BudgetForm() {
                     type="number" 
                     name="budget" 
                     id="budget" 
-                    className='w-full bg-white border border-gray-200 p-2'
+                    className='w-full bg-white border border-gray-200 p-2 text-center'
                     placeholder='Define tu presupuesto'
                     value={budget || ''}
                     onChange={handleChange}
