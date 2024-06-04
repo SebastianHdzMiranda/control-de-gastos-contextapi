@@ -28,3 +28,13 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+
+
+# Context
+
+  Context es una forma de compartir valores entre componentes sin necesidad de pasar esos valores explícitamente a través de props en cada nivel del árbol de componentes. En pocas palabras, te permite pasar datos desde un componente padre a un componente nieto (o más profundo) sin tener que pasarlos a cada componente intermedio.
+
+# Provider
+
+  Provider es un componente de React que provee (de ahí el nombre) el valor del contexto a todos los componentes hijos que lo necesiten. Es la forma de especificar qué valores del contexto estarán disponibles en el árbol de componentes.

@@ -14,7 +14,7 @@ export const initialState: BudgetState = {
 }
 
 // Reducer
-export const BudgetReducer = ( state = initialState, action:BudgetActions) => {
+export const budgetReducer = ( state = initialState, action:BudgetActions) => {
 
     if (action.type === "add-budget") {
         return {
