@@ -14,7 +14,7 @@ export default function ExpenseModal() {
 
   return (
     <>
-      <div className="fixed right-5 bottom-5 flex items-center justify-center">
+      <div className="fixed right-3.5 bottom-3.5 md:right-5 md:bottom-5 flex items-center justify-center">
         <button
           type="button"
           onClick={handleModal}

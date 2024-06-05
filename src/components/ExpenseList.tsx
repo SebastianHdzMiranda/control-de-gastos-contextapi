@@ -9,12 +9,12 @@ function ExpenseList() {
     const isEmpty = useMemo(()=> state.expense.length === 0 , [state.expense])
 
     return (
-        <div className='mt-36'>
+        <div className='mt-36 mb-3'>
             {isEmpty ? 
                 <p className="text-gray-600 text-2xl font-black my-5">No hay Gastos</p>
                 :
                 <>
-                    <p className="text-gray-600 text-2xl font-black my-5">Listado de Gastos.</p>
+                    <p className="text-gray-600 text-2xl font-black mb-5">Listado de Gastos.</p>
 
                     {state.expense.map( gasto => 
                         <ExpenseDetail 

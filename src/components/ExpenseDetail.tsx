@@ -22,13 +22,13 @@ function ExpenseDetail({ gasto }: ExpenseDetailProps) {
 
     console.log(categoryInfo)
     return (
-        <div className="bg-white shadow-lg p-10 w-full border-b border-gray-200 flex gap-5 items-center">
+        <div className="bg-white shadow-lg py-10 px-5 w-full border-b border-gray-200 flex gap-5 items-center">
             
             <div className="">
                 <img 
                     src={`/icono_${categoryInfo.icon}.svg`} 
                     alt={`Grafico ${categoryInfo.icon}`} 
-                    className="w-20"
+                    className="min-w-16 md:w-20"
                 />
             </div>
 
