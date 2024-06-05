@@ -25,10 +25,10 @@ function BudgetTraker() {
           label='Disponible'
           amount={state.availableBudget}
         />
-        {/* <AmountDisplay 
+        <AmountDisplay 
           label='Gastado'
-          amount={100}
-        /> */}
+          amount={state.budget - state.availableBudget}
+        />
       </div>      
 
     </div>

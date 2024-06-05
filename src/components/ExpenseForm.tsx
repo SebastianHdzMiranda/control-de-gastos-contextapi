@@ -67,9 +67,9 @@ function ExpenseForm() {
 
         dispatch({type:"add-expense", payload:{expense}})
         setExpense(initialExpense);
-        setTimeout(() => {
+        // setTimeout(() => {
             dispatch({type:"show-modal"})
-        }, 100);
+        // }, 100);
 
     }
 
