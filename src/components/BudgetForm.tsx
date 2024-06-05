@@ -29,7 +29,7 @@ function BudgetForm() {
 
     return (
         <form 
-            className="space-y-5"
+            className="space-y-5 py-10 md:p-12"
             onSubmit={handleSubmit}
         >
             <div className="flex flex-col space-y-5">
