@@ -4,9 +4,9 @@ import ExpenseDetail from "./ExpenseDetail";
 
 function ExpenseList() {
 
-    const { state } = useBudget();
+    const { state : { expense } } = useBudget();
 
-    const isEmpty = useMemo(()=> state.expense.length === 0 , [state.expense])
+    const isEmpty = useMemo(()=> expense.length === 0 , [expense])
 
     return (
         <div className='mt-36 mb-3'>
@@ -16,7 +16,7 @@ function ExpenseList() {
                 <>
                     <p className="text-gray-600 text-2xl font-black mb-5">Listado de Gastos.</p>
 
-                    {state.expense.map( gasto => 
+                    {expense.map( gasto => 
                         <ExpenseDetail 
                             key={gasto.id}
                             gasto={gasto}

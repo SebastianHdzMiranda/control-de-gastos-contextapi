@@ -1,9 +1,12 @@
+import { useMemo } from "react";
 import { useBudget } from "../hooks/useBudget"
 import AmountDisplay from "./AmountDisplay"
 
 function BudgetTraker() {
 
   const { state } = useBudget();
+
+  const availableBudget = useMemo(()=> state.expense.reduce( (total, expense) => total + expense.amount, 0) ,[state.expense])
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -23,11 +26,11 @@ function BudgetTraker() {
         />
         <AmountDisplay 
           label='Disponible'
-          amount={state.availableBudget}
+          amount={state.budget - availableBudget}
         />
         <AmountDisplay 
           label='Gastado'
-          amount={state.budget - state.availableBudget}
+          amount={availableBudget}
         />
       </div>      
 

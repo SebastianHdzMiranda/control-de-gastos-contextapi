@@ -33,7 +33,7 @@ function BudgetForm() {
             onSubmit={handleSubmit}
         >
             <div className="flex flex-col space-y-5">
-                <label htmlFor="budget" className="text-4xl text-blue-600 font-bold text-center">
+                <label htmlFor="budget" className="text-3xl md:text-4xl text-blue-600 font-bold text-center">
                     Definir Presupuesto
                 </label>
 

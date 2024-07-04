@@ -1,9 +1,9 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect, useMemo } from "react";
 import { categories } from "../data/categories"
 import DatePicker from 'react-date-picker'
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
-import { DraftExpense, Value } from "../types";
+import { DraftExpense, Expense, Value } from "../types";
 import { useBudget } from "../hooks/useBudget";
 import Alert from "./Alert";
 
@@ -13,6 +13,15 @@ function ExpenseForm() {
     // Use Hooks - useContext
     const { state, dispatch } = useBudget();
 
+    // Editing
+    useEffect(() => {
+        if (state.editingId) {
+            const editingExpense : Expense = state.expense.filter( expense => expense.id === state.editingId)[0];
+            setExpense(editingExpense);
+        }
+    }, [state.editingId])
+    
+    
     const initialExpense: DraftExpense = {
         name: '',
         amount: 0,
@@ -21,7 +30,7 @@ function ExpenseForm() {
     }
 
     // States
-    const [ expense, setExpense ] = useState<DraftExpense>(initialExpense);
+    const [ expense, setExpense ] = useState(initialExpense);
     const [ alert, setAlert ] = useState('');
 
     // Functions
@@ -47,7 +56,7 @@ function ExpenseForm() {
         e.preventDefault();
 
         // Validacion
-        if (Object.values(expense).includes('')) {
+        if (Object.values(expense).includes('') || Object.values(expense).includes(0)) {
             setAlert('*Todos los campos son obligatorios');
             setTimeout(() => {
                 setAlert('');
@@ -55,7 +64,7 @@ function ExpenseForm() {
             return;
         }
 
-        // chacar presupuesto, el amount es menor al presupuesto
+        // // chacar presupuesto, el amount es menor al presupuesto
         if(!isValidAmount()) {
             setAlert('*La cantidad se sale de tu presupuesto');
             setTimeout(() => {
@@ -64,22 +73,27 @@ function ExpenseForm() {
             return;
         }
         
-
-        dispatch({type:"add-expense", payload:{expense}})
+        if (state.editingId) {
+            dispatch({type:"update-expense", payload:{expense: {...expense, id: state.editingId}}});
+            
+        } else {
+            dispatch({type:"add-expense", payload:{expense}})
+        }
         setExpense(initialExpense);
-        // setTimeout(() => {
-            dispatch({type:"show-modal"})
-        // }, 100);
-
     }
 
-    // Function helpers
-    const isValidAmount = () => state.availableBudget >= expense.amount;
+    // 
+    const isValidAmount = () => {
+        const availableBudget = state.budget -  state.expense.reduce( (total, expense) => total + expense.amount, 0);        
+        return availableBudget >= expense.amount;
+    }
 
+    const nameForm = () => state.editingId ? 'Editar Gasto' : 'Nuevo Gasto';
+    const nameBtnForm = () => state.editingId ? 'Guardar Cambios' : 'Registrar gasto'
 
     return (
         <form className="space-y-5" onSubmit={handleSubmit}>
-            <legend className="uppercase text-center text-2xl font-black border-b-4 border-blue-500 py-2">Nuevo Gasto</legend>
+            <legend className="uppercase text-center text-2xl font-black border-b-4 border-blue-500 py-2">{nameForm()}</legend>
             {alert && <Alert>{alert}</Alert>}
 
             <div className="flex flex-col gap-2">
@@ -131,7 +145,7 @@ function ExpenseForm() {
             </div>
 
             <div className="flex flex-col gap-2">
-                <label htmlFor="amount" className="text-xl">Cantidad:</label>
+                <label htmlFor="amount" className="text-xl">Fecha:</label>
                 <DatePicker 
                     className="bg-slate-100 p-2 border-none"
                     value={expense.date}
@@ -142,7 +156,7 @@ function ExpenseForm() {
             <input 
                 type="submit" 
                 className="bg-blue-500 cursor-pointer w-full p-2 text-white uppercase font-bold rounded-lg" 
-                value='Registrar gasto'
+                value={nameBtnForm()}
             />
         </form>
     )
