@@ -1,4 +1,4 @@
-import { DraftExpense, Expense } from "../types"
+import { Category, DraftExpense, Expense } from "../types"
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -10,13 +10,15 @@ export type BudgetActions =
     { type: 'remove-expense', payload: {id: Expense['id']} } |
     { type: 'get-expense-by-id', payload: {id: Expense['id']} } |
     { type: 'update-expense', payload: {expense: Expense } } |
-    { type: 'reset-app'}
+    { type: 'reset-app'} |
+    { type: 'filter', payload: {category: Category['id']}}
 
 export type BudgetState = {
     budget: number
     modal: boolean
     expense: Expense[]
     editingId: Expense['id']
+    filter: Category['id']
 }
 
 // LocalStorage
@@ -35,6 +37,7 @@ export const initialState: BudgetState = {
     modal: false,
     expense: localStorageExpense(),
     editingId: '',
+    filter: ''
 }
 
 /* Funcion que agrega un id 
@@ -112,6 +115,13 @@ export const budgetReducer = ( state = initialState, action:BudgetActions) => {
             budget: 0,
             expense: [],
             
+        }
+    }
+
+    if (action.type === 'filter') {
+        return {
+            ...state,
+            filter: action.payload.category
         }
     }
 
