@@ -10,8 +10,9 @@ function App() {
 
   // Guardar expense en localStorage
   useEffect(() => {
+    localStorage.setItem( 'budget', JSON.stringify(state.budget));
     localStorage.setItem('expense', JSON.stringify(state.expense));
-  }, [state.expense])
+  }, [state])
   
 
   /*

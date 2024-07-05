@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, useEffect, useMemo } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { categories } from "../data/categories"
 import DatePicker from 'react-date-picker'
 import 'react-date-picker/dist/DatePicker.css';
@@ -84,7 +84,15 @@ function ExpenseForm() {
 
     // 
     const isValidAmount = () => {
-        const availableBudget = state.budget -  state.expense.reduce( (total, expense) => total + expense.amount, 0);        
+        let availableBudget;
+
+        if (state.editingId) {
+            // Filtrar el gasto del id activo editando.
+            const expense = state.expense.filter( expense => expense.id !== state.editingId);
+            availableBudget  = state.budget -  expense.reduce( (total, expense) => total + expense.amount, 0);        
+        } else {
+            availableBudget  = state.budget -  state.expense.reduce( (total, expense) => total + expense.amount, 0);        
+        }
         return availableBudget >= expense.amount;
     }
 

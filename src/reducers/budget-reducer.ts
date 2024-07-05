@@ -9,7 +9,8 @@ export type BudgetActions =
     { type: 'add-expense', payload: {expense: DraftExpense} } |
     { type: 'remove-expense', payload: {id: Expense['id']} } |
     { type: 'get-expense-by-id', payload: {id: Expense['id']} } |
-    { type: 'update-expense', payload: {expense: Expense } }
+    { type: 'update-expense', payload: {expense: Expense } } |
+    { type: 'reset-app'}
 
 export type BudgetState = {
     budget: number
@@ -53,7 +54,6 @@ const createExpenceWithId = (expense: DraftExpense) : Expense => {
 export const budgetReducer = ( state = initialState, action:BudgetActions) => {
 
     if (action.type === "add-budget") {
-        localStorage.setItem( 'budget', JSON.stringify(action.payload.budget));
         return {
             ...state,
             budget: action.payload.budget,
@@ -102,6 +102,16 @@ export const budgetReducer = ( state = initialState, action:BudgetActions) => {
             expense: state.expense.map( expense => expense.id === action.payload.expense.id ? action.payload.expense : expense ),
             editingId: '',
             modal: false,
+        }
+    }
+
+    if (action.type === 'reset-app') {
+
+        return { 
+            ...state,
+            budget: 0,
+            expense: [],
+            
         }
     }
 
